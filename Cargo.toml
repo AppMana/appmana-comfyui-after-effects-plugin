@@ -1,5 +1,5 @@
 [package]
-name = "after-effects-comfyui"
+name = "after_effects_comfyui"
 version = "0.1.0"
 edition = "2021"
 metadata = { winres = "" }
@@ -9,6 +9,10 @@ crate-type = ["cdylib"]
 
 [dependencies]
 after-effects = { git = "https://github.com/AdrianEddy/after-effects.git", branch = "master" }
+
+[dependencies.pyo3]
+version = "0.21.2"
+features = ["auto-initialize"]
 
 [build-dependencies]
 pipl = { git = "https://github.com/AdrianEddy/after-effects.git", branch = "master" }

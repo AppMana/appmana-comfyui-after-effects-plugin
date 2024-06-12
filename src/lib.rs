@@ -1,4 +1,6 @@
 use after_effects as ae;
+use pyo3::prelude::*;
+use pyo3::types::IntoPyDict;
 
 #[derive(Eq, PartialEq, Hash, Clone, Copy, Debug)]
 enum Params {
@@ -10,6 +12,7 @@ struct Plugin {}
 
 ae::define_effect!(Plugin, (), Params);
 
+#[allow(dead_code)]
 fn detect_host(in_data: ae::InData) -> String {
   use ae::sys::*;
   let v = (in_data.version().0 as u32, in_data.version().1 as u32);
@@ -104,7 +107,19 @@ impl AdobePluginGlobal for Plugin {
         out_data.set_return_msg("Portable, v3.3\rThis example shows how to detect and respond to different hosts.\rCopyright 2007-2023 Adobe Inc.");
       }
       ae::Command::SequenceSetup => {
-        out_data.set_return_msg(&detect_host(in_data));
+        // this proves we are interacting with Python correctly
+        let _ = Python::with_gil(|py| -> PyResult<()> {
+          let sys = py.import_bound("sys")?;
+          let version: String = sys.getattr("version")?.extract()?;
+
+          let locals = [("os", py.import_bound("os")?)].into_py_dict_bound(py);
+          let code = "os.getenv('USER') or os.getenv('USERNAME') or 'Unknown'";
+          let user: String = py.eval_bound(code, None, Some(&locals))?.extract()?;
+
+          let message = format!("Hello {}, I'm Python {}", user, version);
+          out_data.set_return_msg(&message);
+          Ok(())
+        });
       }
       ae::Command::Render { in_layer, mut out_layer } => {
         let slider_value = params.get(Params::MixChannels)?.as_float_slider()?.value() as f32;
@@ -129,22 +144,22 @@ impl AdobePluginGlobal for Plugin {
             let average = (pixel.red + pixel.green + pixel.blue) / 3.0;
             // let midway_calc = (slider_value * average) + (200.0 - slider_value) * pixel.red;
 
-            let r = ((slider_value * average) + (100.0 - slider_value) * pixel.red  ) / 100.0;
+            let r = ((slider_value * average) + (100.0 - slider_value) * pixel.red) / 100.0;
             let g = ((slider_value * average) + (100.0 - slider_value) * pixel.green) / 100.0;
-            let b = ((slider_value * average) + (100.0 - slider_value) * pixel.blue ) / 100.0;
+            let b = ((slider_value * average) + (100.0 - slider_value) * pixel.blue) / 100.0;
 
             match out_pixel {
               ae::GenericPixelMut::Pixel8(out_pixel) => {
                 out_pixel.alpha = pixel.alpha as _;
-                out_pixel.red   = r.min(ae::MAX_CHANNEL8 as f32) as _;
+                out_pixel.red = r.min(ae::MAX_CHANNEL8 as f32) as _;
                 out_pixel.green = g.min(ae::MAX_CHANNEL8 as f32) as _;
-                out_pixel.blue  = b.min(ae::MAX_CHANNEL8 as f32) as _;
+                out_pixel.blue = b.min(ae::MAX_CHANNEL8 as f32) as _;
               }
               ae::GenericPixelMut::Pixel16(out_pixel) => {
                 out_pixel.alpha = pixel.alpha as _;
-                out_pixel.red   = r.min(ae::MAX_CHANNEL16 as f32) as _;
+                out_pixel.red = r.min(ae::MAX_CHANNEL16 as f32) as _;
                 out_pixel.green = g.min(ae::MAX_CHANNEL16 as f32) as _;
-                out_pixel.blue  = b.min(ae::MAX_CHANNEL16 as f32) as _;
+                out_pixel.blue = b.min(ae::MAX_CHANNEL16 as f32) as _;
               }
               _ => return Err(Error::BadCallbackParameter)
             }

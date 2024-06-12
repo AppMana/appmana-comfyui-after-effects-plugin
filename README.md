@@ -4,13 +4,26 @@ Use ComfyUI from After Effects
 
 ## Development
 
-Download the After Effects and Premiere 2022 SDKs from https://developer.adobe.com/console/servicesandapis/ and
-extract `AfterEffectsSDK` and `Premiere Pro 22.0 C++ SDK` directories to located in `./sdk`.
+Download the After Effects 2023 SDK and the Premiere Pro 2022 SDK
+from https://developer.adobe.com/console/servicesandapis/ and extract `AfterEffectsSDK` and `Premiere Pro 22.0 C++ SDK`
+directories to located in `./sdk`.
 
-**Windows Prerequisites**
+### Windows
+
+**Recommended**: Use Busybox as your shell.
+
+| Type | Windows 64 bit | Windows 32 bit | History |
+|------|----------------|----------------|---------|
+| Stable | [Stable 64 bit](https://frippery.org/files/busybox/busybox64.exe) | [Stable 32 bit](https://frippery.org/files/busybox/busybox.exe) | [Browse](https://frippery.org/files/busybox/?C=M;O=D) |
+| Pre-Release | [Pre-Release 64 bit](https://frippery.org/files/busybox/prerelease/busybox_pre64.exe) | [Pre-Release 32 bit](https://frippery.org/files/busybox/prerelease/busybox_pre.exe) | [Browse](https://frippery.org/files/busybox/prerelease/?C=M;O=D) |
+
+Usually the pre-release 64-bit binary is the one you want. Then save it as `C:/Windows/sh.exe`, and set it up with `C:/Windows/sh.exe -ilX` as the command in Windows Terminal.
+
+Then, install **Chocolatey**. These are prerequisites:
 
 ```shell
 # must be separate
+choco install -y gsudo
 choco install -y visualstudio2022buildtools
 # includes clang + msvc
 choco install -y visualstudio2022-workload-vctools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Llvm.ClangToolset --add Microsoft.VisualStudio.Component.VC.Llvm.Clang"
