@@ -1,0 +1,14 @@
+[package]
+name = "after-effects-comfyui"
+version = "0.1.0"
+edition = "2021"
+metadata = { winres = "" }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+after-effects = { git = "https://github.com/AdrianEddy/after-effects.git", branch = "master" }
+
+[build-dependencies]
+pipl = { git = "https://github.com/AdrianEddy/after-effects.git", branch = "master" }
