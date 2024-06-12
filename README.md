@@ -18,6 +18,8 @@ directories to located in `./sdk`.
 
 ### Windows
 
+This assumes you have set up your environment for development of ComfyUI following the instructions [here](https://github.com/AppMana/appmana-comfyui-after-effects-plugin/).
+
 **Recommended**: Use Busybox as your shell.
 
 | Type | Windows 64 bit | Windows 32 bit | History |
