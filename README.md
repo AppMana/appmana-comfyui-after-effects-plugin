@@ -1,6 +1,14 @@
 # appmana-comfyui-after-effects-plugin
 
-Use ComfyUI from After Effects
+This is a work in progress plugin for using ComfyUI from After Effects.
+
+This plugin will expose common and custom workflows as **Effects** that correctly read and render image data in layers, similar to other conventional After Effects plugins.
+
+This is not a script, windowed extension or other high-level wrapper.
+
+It will support local and remote generation.
+
+It is enabled by the [ComfyUI fork here](https://github.com/hiddenswitch/ComfyUI) which supports this and other developer-friendly approaches to using ComfyUI in different places and contexts.
 
 ## Development
 
