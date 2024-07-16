@@ -8,7 +8,7 @@ fn main() {
   pipl::plugin_build(vec![
     Property::Kind(PIPLType::AEEffect),
     Property::Name("ComfyUI"),
-    Property::Category("Generative AI"),
+    Property::Category("AppMana"),
     #[cfg(target_os = "windows")]
             Property::CodeWin64X86("EffectMain"),
     #[cfg(target_os = "macos")]
@@ -18,8 +18,8 @@ fn main() {
     Property::AE_PiPL_Version { major: 2, minor: 0 },
     Property::AE_Effect_Spec_Version { major: PF_PLUG_IN_VERSION, minor: PF_PLUG_IN_SUBVERS },
     Property::AE_Effect_Version {
-      version: 3,
-      subversion: 3,
+      version: 1,
+      subversion: 0,
       bugversion: 0,
       stage: Stage::Develop,
       build: 1,

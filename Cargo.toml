@@ -9,6 +9,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 after-effects = { git = "https://github.com/AdrianEddy/after-effects.git", branch = "master" }
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
 
 [dependencies.pyo3]
 version = "0.21.2"
